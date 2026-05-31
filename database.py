@@ -1,4 +1,7 @@
 import sqlite3
+import os
+
+print("DATABASE PATH:", os.path.abspath("database.db"))
 
 def create_table():
     conn = sqlite3.connect("database.db")
@@ -24,6 +27,9 @@ def create_table():
 
 def insert_patient(data):
 
+    print("INSERT FUNCTION CALLED")
+    print(data)
+
     conn = sqlite3.connect("database.db")
 
     cursor = conn.cursor()
@@ -35,6 +41,9 @@ def insert_patient(data):
     """, data)
 
     conn.commit()
+
+    print("ROWS AFFECTED:", cursor.rowcount)
+
     conn.close()
 
 

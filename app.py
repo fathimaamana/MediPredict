@@ -124,6 +124,12 @@ if menu == "Add Patient":
 
             with st.spinner("AI is analyzing patient data and generating a health remark..."):
 
+                risk = predict_health(
+                    glucose,
+                    haemoglobin,
+                    cholesterol
+                )
+
                 try:
                     remark = generate_ai_remark(
                         risk,
