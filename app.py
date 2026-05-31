@@ -96,6 +96,7 @@ if menu == "Add Patient":
 
         if submitted:
 
+
             email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
 
             if not name.strip():
@@ -121,24 +122,34 @@ if menu == "Add Patient":
                     cholesterol
                 )
 
-                remark = generate_ai_remark(
-                    risk,
-                    glucose,
-                    haemoglobin,
-                    cholesterol
-                )
+            with st.spinner("AI is analyzing patient data and generating a health remark..."):
 
-                insert_patient(
-                    (
-                        name,
-                        str(dob),
-                        email,
+                try:
+                    remark = generate_ai_remark(
+                        risk,
                         glucose,
                         haemoglobin,
-                        cholesterol,
-                        remark
+                        cholesterol
                     )
+                except Exception as e:
+
+                    print("AI Remark Generation Error:", e  )
+                    remark = f"Predicted Risk: {risk}"
+
+
+                insert_patient(
+                (
+                    name,
+                    str(dob),
+                    email,
+                    glucose,
+                    haemoglobin,
+                    cholesterol,
+                    remark
                 )
+
+                
+            )
 
                 st.success("Patient record saved successfully.")
                 st.success(f"Predicted Risk Level: {risk}")
@@ -244,13 +255,8 @@ elif menu == "Update Patient":
                     cholesterol
                 )
 
-                remark = generate_ai_remark(
-                    risk,
-                    glucose,
-                    haemoglobin,
-                    cholesterol
-                )
-                
+                remark = f"Predicted Risk: {risk}"
+
                 update_patient(
                     (
                         name,
@@ -352,7 +358,11 @@ elif menu == "Delete Patient":
                         "Patient record deleted successfully."
                     )
 
-                    st.rerun()
+                    if confirm:
+
+                        delete_patient(patient_id)
+
+                        st.success(f"Patient '{patient_data[1]}' deleted successfully.  ")
 
                 else:
 
