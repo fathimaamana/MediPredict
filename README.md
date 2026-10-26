@@ -25,6 +25,7 @@ AI-Powered Health Risk Assessment System
 
 ```bash
 pip install -r requirements.txt
+streamlit run app.py
 =======
 This is an application with streamlit and python as frontend and backend respectively. An open AI openRouter AI is also integrated with this.
 >>>>>>> 29785ff9e8df72f6505c003381fd90df97145f56
